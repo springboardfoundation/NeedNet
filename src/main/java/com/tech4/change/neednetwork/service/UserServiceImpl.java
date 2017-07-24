@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tech4.change.neednetwork.data.repository.NeedRepository;
@@ -15,6 +16,7 @@ import com.tech4.change.neednetwork.dto.NeedDTO;
 import com.tech4.change.neednetwork.dto.UserDTO;
 import com.tech4.change.neednetwork.entity.Need;
 import com.tech4.change.neednetwork.entity.User;
+
 @Service
 public class UserServiceImpl  implements UserService{
 
@@ -23,6 +25,9 @@ public class UserServiceImpl  implements UserService{
 	private final UserRepository repository;
 	
 	private final NeedRepository needRepository;
+	
+	@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, NeedRepository needRepo) {
@@ -40,7 +45,7 @@ public class UserServiceImpl  implements UserService{
 		 savedUser.setEmailAddress(user.getEmailAddress());
 		 savedUser.setFirstName(user.getFirstName());
 		 savedUser.setLastName(user.getLastName());
-		 savedUser.setPassword(user.getPassword());
+		 savedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		 savedUser.setUsername(user.getUsername());
 		 savedUser.setMobileNumber(user.getMobileNumber());
 		  

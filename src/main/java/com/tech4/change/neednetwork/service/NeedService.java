@@ -2,7 +2,6 @@ package com.tech4.change.neednetwork.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 
 import com.tech4.change.neednetwork.dto.NeedDTO;
 

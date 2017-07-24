@@ -2,7 +2,6 @@ package com.tech4.change.neednetwork.data.repository;
 
 import java.util.List;
 
-import java.util.Optional;	
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +14,7 @@ public interface NeedRepository extends MongoRepository<Need,String> {
  List<Need> findAll();
  Need findOne(@Param("id") String id);
  List<Need> findBycreatedBy( String createdBy);
- Need save(Need saved); 
+ @SuppressWarnings("unchecked")
+Need save(Need saved); 
  
 }

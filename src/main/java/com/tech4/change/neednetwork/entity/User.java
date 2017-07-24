@@ -2,7 +2,7 @@ package com.tech4.change.neednetwork.entity;
 
 
 import java.util.List;
-import java.util.Map;
+
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.tech4.change.neednetwork.dto.NeedDTO;
 
 public class User  {
 	
@@ -37,7 +36,8 @@ public class User  {
 	@Field(value="mobileNumber")
 	private Integer mobileNumber;
 	private List<String> friendList;
-	private List<NeedDTO> needsList;
+	
+	private List<Need> needsList;
 	
 	public String getId() {
 		return id;
@@ -87,10 +87,10 @@ public class User  {
 	public void setFriendList(List<String> friendList) {
 		this.friendList = friendList;
 	}
-	public List<NeedDTO> getNeedsList() {
+	public List<Need> getNeedsList() {
 		return needsList;
 	}
-	public void setNeedsList(List<NeedDTO> needsList) {
+	public void setNeedsList(List<Need> needsList) {
 		this.needsList = needsList;
 	}
 	

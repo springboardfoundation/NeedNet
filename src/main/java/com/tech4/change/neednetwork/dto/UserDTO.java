@@ -1,10 +1,8 @@
 package com.tech4.change.neednetwork.dto;
 
 import java.util.List;
-import java.util.Map;
 
 
-import com.tech4.change.neednetwork.entity.Need;
 
 public class UserDTO {
 
