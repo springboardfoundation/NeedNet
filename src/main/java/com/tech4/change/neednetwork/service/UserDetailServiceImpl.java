@@ -33,7 +33,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 			
 			throw new UsernameNotFoundException("could not find the user:"+userName);
 		}
-		loadedUser = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
+		loadedUser = new org.springframework.security.core.userdetails.User(user.getUserName(),user.getUserName(),true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
 		
 		
 		}catch(Exception ex) {

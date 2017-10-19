@@ -21,5 +21,11 @@ public interface UserService {
 	 
 	UserDTO update(UserDTO user);
 	
+	UserDTO updateDisplayName(String userName,String displayName);
+	
+	List<String> getRegisteredUser(List<String> users);
+
+	void createPasswordResetTokenForUser(UserDTO user, String token);
+	
 
 }

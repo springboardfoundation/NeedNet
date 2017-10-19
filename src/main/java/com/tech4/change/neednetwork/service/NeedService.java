@@ -19,6 +19,12 @@ import com.tech4.change.neednetwork.dto.NeedDTO;
 	 
 	NeedDTO update(NeedDTO need);
 	
+	NeedDTO updateUsers(List<String> users,String needId);
+	
+	NeedDTO addUser(String user,String needId);
+	
+	List<NeedDTO> findNeedsByUsers(String user);
+	
 	
 	
 

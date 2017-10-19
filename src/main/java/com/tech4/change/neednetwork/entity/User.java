@@ -2,7 +2,7 @@ package com.tech4.change.neednetwork.entity;
 
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,25 +19,31 @@ public class User  {
 	
 	@Id
 	private String id;
-	@Field (value="firstName")
-	private String firstName;
-	@Field(value="lastName")
-	private String lastName;
+	
+	
 	
 	@NotBlank
 	@Indexed(unique = true)
-	@Field (value="username")
-	private String username;
-	@Field(value="password")
-	private String password;
-	@Email
-	@Field(value="emailAddress")
-	private String emailAddress;
 	@Field(value="mobileNumber")
 	private Integer mobileNumber;
+	
+	@NotBlank
+	@Indexed(unique = true)
+	@Field(value="username")
+	private String username; // username is same as mobile no
+	
+	@Field(value="displayName")
+	private String displayName;
+	
+	public String getUserName() {
+		return username;
+	}
+	public void setUserName(String userName) {
+		this.username = userName;
+	}
+
 	private List<String> friendList;
 	
-	private List<Need> needsList;
 	
 	public String getId() {
 		return id;
@@ -45,36 +51,7 @@ public class User  {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+	
 	public Integer getMobileNumber() {
 		return mobileNumber;
 	}
@@ -87,12 +64,14 @@ public class User  {
 	public void setFriendList(List<String> friendList) {
 		this.friendList = friendList;
 	}
-	public List<Need> getNeedsList() {
-		return needsList;
+	public String getDisplayName() {
+		return displayName;
 	}
-	public void setNeedsList(List<Need> needsList) {
-		this.needsList = needsList;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
+	
+	
 	
 	
 	

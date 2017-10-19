@@ -38,7 +38,7 @@ public class NeedNetAuthenticationProvider extends AbstractUserDetailsAuthentica
 			 LOGGER.info("Invoking user service {}.."+username);
 			 
 			 UserDTO user = userService.findByUserName(username);
-	            loadedUser = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
+	            loadedUser = new org.springframework.security.core.userdetails.User(user.getUserName(),user.getMobileNumber().toString(),true, true, true, true, AuthorityUtils.createAuthorityList("USER"));
 	    		  } 
 		 catch (Exception repositoryProblem) {
 	            throw new InternalAuthenticationServiceException(repositoryProblem.getMessage(), repositoryProblem);

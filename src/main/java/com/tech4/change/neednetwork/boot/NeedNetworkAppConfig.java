@@ -12,12 +12,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.tech4.change.neednetwork.security.JWTAuthenticationFilter;
 import com.tech4.change.neednetwork.security.JWTLoginFilter;
+import com.tech4.change.neednetwork.security.NedNetAuthFailureHandler;
+import com.tech4.change.neednetwork.security.NeedNetAuthSuccessHandler;
 import com.tech4.change.neednetwork.service.NeedNetAuthenticationProvider;
 import com.tech4.change.neednetwork.service.UserDetailServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -25,6 +28,7 @@ import org.springframework.context.annotation.ComponentScan;
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan("com.tech4")
+@EntityScan
 @EnableMongoRepositories (basePackages= "com.tech4.change")
 public class NeedNetworkAppConfig {
 	
@@ -50,6 +54,12 @@ public class NeedNetworkAppConfig {
 		
 		@Autowired
 		NeedNetAuthenticationProvider authenticationProvider;
+		
+		@Autowired
+		NedNetAuthFailureHandler needAuthFailureHandler;
+		
+		@Autowired
+		NeedNetAuthSuccessHandler needAuthSuccessHandler;
 
 	    @Bean
 	    public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -62,11 +72,11 @@ public class NeedNetworkAppConfig {
 	                .authorizeRequests()
 	                    .antMatchers("/resources/**", "/rest/register").permitAll()
 	                    .antMatchers("/resources/**", "/rest/login").permitAll()
-	                    .antMatchers("/resources/**", "/rest/test").permitAll()
+	                    .antMatchers("/resources/**", "/rest/test").permitAll()  
 	                    .anyRequest().authenticated()
 	                    .and()
 	                    // We filter the api/login requests
-	                    .addFilterBefore(new JWTLoginFilter("/rest/login", authenticationManager()),
+	                    .addFilterBefore(new JWTLoginFilter("/rest/login", authenticationManager(),needAuthSuccessHandler,needAuthFailureHandler),
 	                            UsernamePasswordAuthenticationFilter.class)
 	                    // And filter other requests to check the presence of JWT in header
 	                    .addFilterBefore(new JWTAuthenticationFilter(),

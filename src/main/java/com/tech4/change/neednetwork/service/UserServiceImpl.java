@@ -2,7 +2,10 @@ package com.tech4.change.neednetwork.service;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +14,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tech4.change.neednetwork.data.repository.NeedRepository;
+
 import com.tech4.change.neednetwork.data.repository.UserRepository;
+
 import com.tech4.change.neednetwork.dto.NeedDTO;
 import com.tech4.change.neednetwork.dto.UserDTO;
 import com.tech4.change.neednetwork.entity.Need;
+
 import com.tech4.change.neednetwork.entity.User;
+import com.tech4.change.neednetwork.exception.ServiceException;
+
 
 @Service
 public class UserServiceImpl  implements UserService{
@@ -25,6 +33,8 @@ public class UserServiceImpl  implements UserService{
 	private final UserRepository repository;
 	
 	private final NeedRepository needRepository;
+	
+   
 	
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,21 +49,18 @@ public class UserServiceImpl  implements UserService{
 	
 	public UserDTO createUser(UserDTO user) {
 		
-		User checkUser = repository.findByusername(user.getUsername()); 
+		User checkUser = repository.findByusername(user.getMobileNumber().toString()); 
 		  if(checkUser == null) {
 		 User savedUser = new User();
-		 savedUser.setEmailAddress(user.getEmailAddress());
-		 savedUser.setFirstName(user.getFirstName());
-		 savedUser.setLastName(user.getLastName());
-		 savedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		 savedUser.setUsername(user.getUsername());
+		 
 		 savedUser.setMobileNumber(user.getMobileNumber());
-		  
+		 savedUser.setUserName(user.getMobileNumber().toString());
 		 savedUser = repository.save(savedUser);
 		 LOGGER.info("Created the User Succesfully "); 
 		 return convertToDTO(savedUser);
 		  }else {
-			  return null;
+			  LOGGER.info("User Already exists . Please invoke login."); 
+			 throw new ServiceException("User Already Exists");
 		  }
 		  
 		
@@ -74,6 +81,11 @@ public class UserServiceImpl  implements UserService{
 	public UserDTO findByUserName(String userName) {
 		LOGGER.info("Check the user...."+userName);
 		User userFound = repository.findByusername(userName);
+		List<User> userslist = repository.findAll();
+		for(User user: userslist) {
+			LOGGER.info("Got the User name from list "+user.getUserName());
+		}
+		LOGGER.info("Got the User list size"+userslist);
 		LOGGER.info("Got the User"+userFound);
 		return convertToDTO(userFound);
 	}
@@ -98,13 +110,9 @@ private UserDTO convertToDTO(User user) {
 		
 	 if(user != null) {
 	UserDTO userDTO = new UserDTO();
-	userDTO.setEmailAddress(user.getEmailAddress());
-	userDTO.setFirstName(user.getFirstName());
-	userDTO.setLastName(user.getLastName());
-	userDTO.setPassword(user.getPassword());
-	userDTO.setUsername(user.getUsername());
+	
 	userDTO.setMobileNumber(user.getMobileNumber());
-	userDTO.setId(user.getId());
+	userDTO.setUserName(user.getUserName());
 	userDTO.setFriendList(user.getFriendList());
 	  return userDTO;
 	 }else {
@@ -114,18 +122,71 @@ private UserDTO convertToDTO(User user) {
 		
 	}
 
+private User convertToUserRepo(UserDTO user) {
+	
+	User savedUser = new User();
+	if(user!=null) {
+		 savedUser.setMobileNumber(user.getMobileNumber());
+		 savedUser.setUserName(user.getMobileNumber().toString());
+	}
+	return savedUser;
+}
+
 	
 private NeedDTO convertToNeedDTO(Need need) {
 		
 		NeedDTO needDTO = new NeedDTO();
 		needDTO.setId(need.getId());
 		needDTO.setCreatedBy(need.getCreatedBy());
-		needDTO.setCurrentAmount(need.getCurrentAmount());
+		
 		needDTO.setDescription(need.getDescription());
-		needDTO.setStatus(need.getStatus());
-		needDTO.setTargetAmount(need.getTargetAmount());
+	
 		return needDTO;
 	}
 
 
+@Override
+public void createPasswordResetTokenForUser(UserDTO user, String token) {
+	// TODO Auto-generated method stub
+	
 }
+
+
+@Override
+public List<String> getRegisteredUser(List<String> users) {
+	
+	List<User> registeredUser = repository.findAll();
+	List<String> userNames = new ArrayList<String>();
+	for(User user: registeredUser) {
+		userNames.add(user.getUserName());
+		
+	}
+	List<String> intersect = userNames.stream()
+            .filter(users::contains)
+            .collect(Collectors.toList());
+	
+	LOGGER.info("Return the  registered Users"+intersect.toString());
+	return intersect;
+	
+}
+
+
+@Override
+public UserDTO updateDisplayName(String userName,String displayName) {
+	LOGGER.info("Update the display name for user..."+userName);
+	User userFound = repository.findByusername(userName);
+	userFound.setDisplayName(displayName);
+	
+	return convertToDTO(userFound);
+	
+	
+}
+
+
+
+
+
+}
+
+
+

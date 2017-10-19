@@ -1,6 +1,7 @@
 package com.tech4.change.neednetwork.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,18 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tech4.change.neednetwork.data.repository.NeedRepository;
+import com.tech4.change.neednetwork.data.repository.UserRepository;
 import com.tech4.change.neednetwork.dto.NeedDTO;
 import com.tech4.change.neednetwork.entity.Need;
+import com.tech4.change.neednetwork.exception.ServiceException;
+
 import static java.util.stream.Collectors.toList;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 @Service
 public class NeedServiceImpl  implements NeedService{
 	private static final Logger LOGGER = LoggerFactory.getLogger(NeedServiceImpl.class);
 
 	private final NeedRepository repository;
+	private final UserRepository userRepo;
 	
 	@Autowired
-	NeedServiceImpl(NeedRepository repository) {
+	NeedServiceImpl(NeedRepository repository, UserRepository userRepo) {
 		this.repository=repository;
+		this.userRepo = userRepo;
 	}
 	
 	public NeedDTO create(NeedDTO need) {
@@ -27,10 +36,23 @@ public class NeedServiceImpl  implements NeedService{
 		
 		Need persistedNeed = new Need();
 		persistedNeed.setCreatedBy(need.getCreatedBy());
-		persistedNeed.setCurrentAmount(need.getCurrentAmount());
+		persistedNeed.setTitle(need.getTitle());
 		persistedNeed.setDescription(need.getDescription());
-		persistedNeed.setStatus(need.getStatus());
-		persistedNeed.setTargetAmount(need.getTargetAmount());
+		persistedNeed.setLocation(need.getLocation());
+		persistedNeed.setTargetDate(need.getTargetDate());
+		List<String> users = null;
+		if(need.getUsers() == null) {
+			users = new ArrayList<String>();
+		}else {
+			users = need.getUsers();
+		}
+		for(String userid : users) {
+			if(userRepo.findByusername(userid) == null) {
+				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
+			}
+		}
+		
+		persistedNeed.setUsers(users);
 		persistedNeed = repository.save(persistedNeed);			
 		
 		return convertToNeedDTO(persistedNeed);
@@ -76,10 +98,12 @@ public class NeedServiceImpl  implements NeedService{
 
         Need updated = findNeedById(need.getId());
         updated.setCreatedBy(need.getCreatedBy());
-        updated.setCurrentAmount(need.getCurrentAmount());
         updated.setDescription(need.getDescription());
-        updated.setStatus(need.getStatus());
-        updated.setTargetAmount(need.getTargetAmount());
+        updated.setTitle(need.getTitle());
+        updated.setTargetDate(need.getTargetDate());
+        updated.setLocation(need.getLocation());
+        updated.setId(need.getId());
+        updated.setUsers(need.getUsers());
         updated = repository.save(updated);
 
         LOGGER.info("Updated todo entry with information: {}", updated);
@@ -92,10 +116,12 @@ public class NeedServiceImpl  implements NeedService{
 		NeedDTO needDTO = new NeedDTO();
 		needDTO.setId(need.getId());
 		needDTO.setCreatedBy(need.getCreatedBy());
-		needDTO.setCurrentAmount(need.getCurrentAmount());
+	
 		needDTO.setDescription(need.getDescription());
-		needDTO.setStatus(need.getStatus());
-		needDTO.setTargetAmount(need.getTargetAmount());
+		needDTO.setTitle(need.getTitle());
+		needDTO.setLocation(need.getLocation());
+		needDTO.setTargetDate(need.getTargetDate());
+		needDTO.setUsers(need.getUsers());
 		return needDTO;
 	}
 
@@ -104,5 +130,61 @@ public class NeedServiceImpl  implements NeedService{
 		List<Need> needEntries = repository.findBycreatedBy(userName);
         return convertToDTOs(needEntries);
 	}
+
+	@Override
+	public NeedDTO updateUsers(List<String> users,String needId) {
+		Need need = repository.findOne(needId);
+		List<String> existingUsers = need.getUsers();
+		existingUsers.addAll(users);
+		need.setUsers(existingUsers);
+		LOGGER.info("Updated the users to the need..."+need.getUsers());
+		repository.save(need);
+		return convertToNeedDTO(need);
+		
+	}
+
+	@Override
+	public NeedDTO addUser(String user,String needId) {
+		
+		Need need = repository.findOne(needId);
+		List<String> existingUsers = need.getUsers();
+		if(existingUsers != null) {
+		existingUsers.add(user);
+		}else {
+			existingUsers = new ArrayList<String>();
+			existingUsers.add(user);
+		}
+		need.setUsers(existingUsers);
+		LOGGER.info("Updated the  single user to the need..."+need.getUsers());
+		repository.save(need);
+		return convertToNeedDTO(need);
+	}
+
+	@Override
+	public List<NeedDTO> findNeedsByUsers(String user) {
+		LOGGER.info("Inside get needs created by others mapped to me..."+user);
+		//repository.
+		String[] usersArr = new String[10];
+		usersArr[0] = user;
+		
+		List<String>  users = new ArrayList<String>();
+		users.add(user);
+		List<Need> needEntries = repository.findNeedByUsers(usersArr);
+		
+		LOGGER.info("Repository needs created by others mapped to me..."+needEntries);
+		
+		List<Need> needEntriesCustom = repository.findByUsersIn(users);
+		LOGGER.info("Repository needs created by others mapped to me..."+needEntriesCustom);
+		
+		
+		
+		List<Need> needEntries1 = repository.findByUsers(user);
+		LOGGER.info("Repository needs created by others mapped to me..."+needEntries1);
+		
+        return convertToDTOs(needEntries1);
+		
+	}
+	
+	
 
 }

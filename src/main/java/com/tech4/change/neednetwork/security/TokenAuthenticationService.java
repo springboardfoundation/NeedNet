@@ -14,7 +14,7 @@ import java.util.Date;
 
 import static java.util.Collections.emptyList;
 
-class TokenAuthenticationService {
+ class TokenAuthenticationService {
   static final long EXPIRATIONTIME = 864_000_000; // 10 days
   static final String SECRET = "ThisIsASecret";
   static final String TOKEN_PREFIX = "Bearer";
@@ -39,7 +39,7 @@ class TokenAuthenticationService {
           .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
           .getBody()
           .getSubject();
-
+      LOGGER.info("Inside getAuthentication method.. for user..."+user);
       return user != null ?
           new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
           null;

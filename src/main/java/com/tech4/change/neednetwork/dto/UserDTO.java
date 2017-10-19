@@ -6,53 +6,26 @@ import java.util.List;
 
 public class UserDTO {
 
-	private String id;
-	private String firstName;
-	private String lastName;
 	
-	//@Id (unique = true)
-	private String username;
-	private String password;
 	
-	private String emailAddress;
 	private Integer mobileNumber;
 	private List<String> friendList;
 	private List<NeedDTO> needsList;
-	public String getId() {
-		return id;
+	private String userName;
+	private String displayName;
+	
+	
+	public String getUserName() {
+		return userName;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getDisplayName() {
+		return displayName;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 	public Integer getMobileNumber() {
 		return mobileNumber;
