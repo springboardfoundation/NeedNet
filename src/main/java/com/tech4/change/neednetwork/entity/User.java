@@ -25,7 +25,7 @@ public class User  {
 	@NotBlank
 	@Indexed(unique = true)
 	@Field(value="mobileNumber")
-	private Integer mobileNumber;
+	private String mobileNumber;
 	
 	@NotBlank
 	@Indexed(unique = true)
@@ -52,10 +52,10 @@ public class User  {
 		this.id = id;
 	}
 	
-	public Integer getMobileNumber() {
+	public String getMobileNumber() {
 		return mobileNumber;
 	}
-	public void setMobileNumber(Integer mobileNumboer) {
+	public void setMobileNumber(String mobileNumboer) {
 		this.mobileNumber = mobileNumboer;
 	}
 	public List<String> getFriendList() {

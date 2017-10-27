@@ -67,7 +67,8 @@ public class UserController {
         	created = userService.createUser(user);
         LOGGER.info("Created a new  User with information: {}", created);
         }catch (Exception e) {
-        	LOGGER.error("Got Error registering the user", e.getMessage());
+        	LOGGER.error("Got Error registering the user {}", e.getMessage());
+        	e.printStackTrace();
         	return new ResponseEntity<UserDTO>(created,HttpStatus.ALREADY_REPORTED);
         	
         }

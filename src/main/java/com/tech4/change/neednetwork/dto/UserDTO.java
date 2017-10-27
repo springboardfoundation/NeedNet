@@ -8,7 +8,7 @@ public class UserDTO {
 
 	
 	
-	private Integer mobileNumber;
+	private String mobileNumber;
 	private List<String> friendList;
 	private List<NeedDTO> needsList;
 	private String userName;
@@ -27,10 +27,10 @@ public class UserDTO {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	public Integer getMobileNumber() {
+	public String getMobileNumber() {
 		return mobileNumber;
 	}
-	public void setMobileNumber(Integer mobileNumber) {
+	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
 	public List<String> getFriendList() {

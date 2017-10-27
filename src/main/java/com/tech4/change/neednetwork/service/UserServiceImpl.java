@@ -49,7 +49,7 @@ public class UserServiceImpl  implements UserService{
 	
 	public UserDTO createUser(UserDTO user) {
 		
-		User checkUser = repository.findByusername(user.getMobileNumber().toString()); 
+		User checkUser = repository.findByusername(user.getMobileNumber()); 
 		  if(checkUser == null) {
 		 User savedUser = new User();
 		 
@@ -111,7 +111,7 @@ private UserDTO convertToDTO(User user) {
 	 if(user != null) {
 	UserDTO userDTO = new UserDTO();
 	
-	userDTO.setMobileNumber(user.getMobileNumber());
+	userDTO.setMobileNumber(user.getMobileNumber().toString());
 	userDTO.setUserName(user.getUserName());
 	userDTO.setFriendList(user.getFriendList());
 	  return userDTO;
