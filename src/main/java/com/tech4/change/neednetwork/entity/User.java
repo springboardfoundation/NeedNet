@@ -35,6 +35,15 @@ public class User  {
 	@Field(value="displayName")
 	private String displayName;
 	
+	@Field(value="deviceID")
+	private String deviceID;
+	
+	public String getDeviceID() {
+		return deviceID;
+	}
+	public void setDeviceID(String deviceID) {
+		this.deviceID = deviceID;
+	}
 	public String getUserName() {
 		return username;
 	}

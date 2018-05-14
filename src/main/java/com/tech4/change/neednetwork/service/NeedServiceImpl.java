@@ -12,6 +12,7 @@ import com.tech4.change.neednetwork.data.repository.NeedRepository;
 import com.tech4.change.neednetwork.data.repository.UserRepository;
 import com.tech4.change.neednetwork.dto.NeedDTO;
 import com.tech4.change.neednetwork.entity.Need;
+import com.tech4.change.neednetwork.entity.User;
 import com.tech4.change.neednetwork.exception.ServiceException;
 
 import static java.util.stream.Collectors.toList;
@@ -31,6 +32,9 @@ public class NeedServiceImpl  implements NeedService{
 		this.userRepo = userRepo;
 	}
 	
+	@Autowired
+	GCFireBaseConnector fireBaseService;
+	
 	public NeedDTO create(NeedDTO need) {
 		// TODO Auto-generated method stub
 		
@@ -47,9 +51,11 @@ public class NeedServiceImpl  implements NeedService{
 			users = need.getUsers();
 		}
 		for(String userid : users) {
-			if(userRepo.findByusername(userid) == null) {
+			User user = userRepo.findByusername(userid);
+			if(user == null) {
 				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
 			}
+			fireBaseService.sendMessage(user.getDeviceID(), "A New need has been created", need);
 		}
 		
 		persistedNeed.setUsers(users);
@@ -139,6 +145,13 @@ public class NeedServiceImpl  implements NeedService{
 		need.setUsers(existingUsers);
 		LOGGER.info("Updated the users to the need..."+need.getUsers());
 		repository.save(need);
+		for(String userid : users) {
+			User user = userRepo.findByusername(userid);
+			if(user == null) {
+				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
+			}
+			fireBaseService.sendMessage(user.getDeviceID(), "A New need has been created", convertToNeedDTO(need));
+		}
 		return convertToNeedDTO(need);
 		
 	}
@@ -157,6 +170,13 @@ public class NeedServiceImpl  implements NeedService{
 		need.setUsers(existingUsers);
 		LOGGER.info("Updated the  single user to the need..."+need.getUsers());
 		repository.save(need);
+		
+			User newUser = userRepo.findByusername(user);
+			if(user == null) {
+				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
+			}
+			fireBaseService.sendMessage(newUser.getDeviceID(), "A New need has been created", convertToNeedDTO(need));
+		
 		return convertToNeedDTO(need);
 	}
 

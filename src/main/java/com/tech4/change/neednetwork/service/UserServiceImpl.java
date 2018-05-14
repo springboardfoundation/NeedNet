@@ -182,6 +182,17 @@ public UserDTO updateDisplayName(String userName,String displayName) {
 	
 }
 
+@Override
+public UserDTO updateDeviceID(String userName,String deviceID) {
+	LOGGER.info("Update the display name for user..."+userName);
+	User userFound = repository.findByusername(userName);
+	userFound.setDeviceID(deviceID);
+	
+	return convertToDTO(userFound);
+	
+	
+}
+
 
 
 

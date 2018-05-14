@@ -26,6 +26,8 @@ public interface UserService {
 	List<String> getRegisteredUser(List<String> users);
 
 	void createPasswordResetTokenForUser(UserDTO user, String token);
+
+	UserDTO updateDeviceID(String userName, String deviceID);
 	
 
 }

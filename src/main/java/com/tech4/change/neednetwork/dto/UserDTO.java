@@ -13,8 +13,15 @@ public class UserDTO {
 	private List<NeedDTO> needsList;
 	private String userName;
 	private String displayName;
+	private String deviceID;
 	
 	
+	public String getDeviceID() {
+		return deviceID;
+	}
+	public void setDeviceID(String deviceID) {
+		this.deviceID = deviceID;
+	}
 	public String getUserName() {
 		return userName;
 	}
