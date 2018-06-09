@@ -197,8 +197,7 @@ public class NeedServiceImpl  implements NeedService{
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntriesCustom);
 		
 		
-		
-		List<Need> needEntries1 = repository.findByUsers(user);
+		List<Need> needEntries1 = repository.findByUsers(user.replace("+", "\\+"));
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntries1);
 		
         return convertToDTOs(needEntries1);

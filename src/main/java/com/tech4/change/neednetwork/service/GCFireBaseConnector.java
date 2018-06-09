@@ -16,8 +16,8 @@ public class GCFireBaseConnector {
 		try {
 			//Send the message to the token id... 
 			Message needMessage = Message.builder()
-				    .putData("need", message)
-				    .putData("id", need.getTitle())
+				    .putData("alert", message)
+				    .putData("title", need.getTitle())
 				    .putData("needNetApp", "True")
 				    .setToken(tokenId)
 				    .build();
