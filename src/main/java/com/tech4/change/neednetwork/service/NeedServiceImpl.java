@@ -44,6 +44,7 @@ public class NeedServiceImpl  implements NeedService{
 		persistedNeed.setDescription(need.getDescription());
 		persistedNeed.setLocation(need.getLocation());
 		persistedNeed.setTargetDate(need.getTargetDate());
+		persistedNeed.setGoal(need.getGoal());
 		List<String> users = null;
 		if(need.getUsers() == null) {
 			users = new ArrayList<String>();
@@ -110,6 +111,7 @@ public class NeedServiceImpl  implements NeedService{
         updated.setLocation(need.getLocation());
         updated.setId(need.getId());
         updated.setUsers(need.getUsers());
+        updated.setGoal(need.getGoal());
         updated = repository.save(updated);
 
         LOGGER.info("Updated todo entry with information: {}", updated);
@@ -128,6 +130,8 @@ public class NeedServiceImpl  implements NeedService{
 		needDTO.setLocation(need.getLocation());
 		needDTO.setTargetDate(need.getTargetDate());
 		needDTO.setUsers(need.getUsers());
+		needDTO.setGoal(need.getGoal());
+		
 		return needDTO;
 	}
 
@@ -197,6 +201,7 @@ public class NeedServiceImpl  implements NeedService{
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntriesCustom);
 		
 		
+		
 		List<Need> needEntries1 = repository.findByUsers(user.replace("+", "\\+"));
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntries1);
 		
@@ -207,3 +212,4 @@ public class NeedServiceImpl  implements NeedService{
 	
 
 }
+
