@@ -55,6 +55,9 @@ public class UserServiceImpl  implements UserService{
 		 
 		 savedUser.setMobileNumber(user.getMobileNumber());
 		 savedUser.setUserName(user.getMobileNumber().toString());
+		 savedUser.setDeviceID(user.getDeviceID());
+		 savedUser.setDisplayName(user.getDisplayName());
+		 savedUser.setFriendList(user.getFriendList());
 		 savedUser = repository.save(savedUser);
 		 LOGGER.info("Created the User Succesfully "); 
 		 return convertToDTO(savedUser);
