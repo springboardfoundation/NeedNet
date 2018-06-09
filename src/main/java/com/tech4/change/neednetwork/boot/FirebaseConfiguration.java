@@ -28,8 +28,7 @@ public class FirebaseConfiguration {
 	@Bean
 	public FirebaseApp firebaseNeedNetApp() {
 		
-	        Resource resource = resourceLoader.getResource("/deployments/data/config/firebase/neednet.key");
-		LOGGER.info("Got the resouce info..details.. "+resource);						
+		Resource resource = resourceLoader.getResource("classpath:NeedNetwork.json");
 		FirebaseOptions options = null;
 		try {
 			options = new FirebaseOptions.Builder()
