@@ -56,7 +56,7 @@ public class NeedServiceImpl  implements NeedService{
 			if(user == null) {
 				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
 			}
-			fireBaseService.sendMessage(user.getDeviceID(), "A New need has been created", need);
+			fireBaseService.sendMessage(user.getDeviceID(), "A New need has been created by "+user.getMobileNumber(), need);
 		}
 		
 		persistedNeed.setUsers(users);
@@ -115,7 +115,14 @@ public class NeedServiceImpl  implements NeedService{
         updated = repository.save(updated);
 
         LOGGER.info("Updated todo entry with information: {}", updated);
-
+        for(String userid : need.getUsers()) {
+			User user = userRepo.findByusername(userid);
+			if(user == null) {
+				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
+			}
+			fireBaseService.sendMessage(user.getDeviceID(), " The need"+need.getTitle()+" has been updated by ::"+need.getCreatedBy(), need);
+		}
+        
         return convertToNeedDTO(updated);
 	}
 	
@@ -131,6 +138,7 @@ public class NeedServiceImpl  implements NeedService{
 		needDTO.setTargetDate(need.getTargetDate());
 		needDTO.setUsers(need.getUsers());
 		needDTO.setGoal(need.getGoal());
+		
 		
 		return needDTO;
 	}
@@ -154,7 +162,7 @@ public class NeedServiceImpl  implements NeedService{
 			if(user == null) {
 				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
 			}
-			fireBaseService.sendMessage(user.getDeviceID(), "A New need has been created", convertToNeedDTO(need));
+			fireBaseService.sendMessage(user.getDeviceID(), " The need"+need.getTitle()+" has been updated by ::"+need.getCreatedBy(), convertToNeedDTO(need));
 		}
 		return convertToNeedDTO(need);
 		
@@ -179,7 +187,7 @@ public class NeedServiceImpl  implements NeedService{
 			if(user == null) {
 				throw new ServiceException("Invalid user id been added to the need, please add valid user id");
 			}
-			fireBaseService.sendMessage(newUser.getDeviceID(), "A New need has been created", convertToNeedDTO(need));
+			fireBaseService.sendMessage(newUser.getDeviceID(), "A need "+need.getTitle()+" has been created by :"+need.getCreatedBy(), convertToNeedDTO(need));
 		
 		return convertToNeedDTO(need);
 	}
@@ -212,4 +220,3 @@ public class NeedServiceImpl  implements NeedService{
 	
 
 }
-
