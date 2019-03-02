@@ -58,6 +58,7 @@ public class UserServiceImpl  implements UserService{
 		 savedUser.setDeviceID(user.getDeviceID());
 		 savedUser.setDisplayName(user.getDisplayName());
 		 savedUser.setFriendList(user.getFriendList());
+		 
 		 savedUser = repository.save(savedUser);
 		 LOGGER.info("Created the User Succesfully "); 
 		 return convertToDTO(savedUser);
@@ -84,11 +85,7 @@ public class UserServiceImpl  implements UserService{
 	public UserDTO findByUserName(String userName) {
 		LOGGER.info("Check the user...."+userName);
 		User userFound = repository.findByusername(userName);
-		List<User> userslist = repository.findAll();
-		for(User user: userslist) {
-			LOGGER.info("Got the User name from list "+user.getUserName());
-		}
-		LOGGER.info("Got the User list size"+userslist);
+		
 		LOGGER.info("Got the User"+userFound);
 		return convertToDTO(userFound);
 	}
@@ -117,6 +114,8 @@ private UserDTO convertToDTO(User user) {
 	userDTO.setMobileNumber(user.getMobileNumber().toString());
 	userDTO.setUserName(user.getUserName());
 	userDTO.setFriendList(user.getFriendList());
+	userDTO.setDeviceID(user.getDeviceID());
+	
 	  return userDTO;
 	 }else {
 		 return null;
@@ -131,6 +130,7 @@ private User convertToUserRepo(UserDTO user) {
 	if(user!=null) {
 		 savedUser.setMobileNumber(user.getMobileNumber());
 		 savedUser.setUserName(user.getMobileNumber().toString());
+		 savedUser.setDeviceID(user.getDeviceID());
 	}
 	return savedUser;
 }

@@ -118,6 +118,13 @@ public class UserController {
 	     return userService.updateDisplayName(mobileno, displayName);
 	      
 	    }
+	 
+	 @RequestMapping(value = "{mobileno}/deviceid", method = RequestMethod.PUT)
+	    UserDTO updateDeviceID(@PathVariable String mobileno ,@RequestBody @Valid String deviceID) {
+	        LOGGER.info("Adding need entry with information: {}", deviceID);
+	     return userService.updateDeviceID(mobileno, deviceID);
+	      
+	    }
 	
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

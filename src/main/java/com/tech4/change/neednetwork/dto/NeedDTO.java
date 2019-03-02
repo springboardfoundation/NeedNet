@@ -12,17 +12,17 @@ private String id;
 	private String description;
 	private String title;
 	private Date  targetDate; // days 
-	private String location;
+	private String location; 
 	private String goal;
-
+	
 	public String getGoal() {
 		return goal;
 	}
 
 	public void setGoal(String goal) {
 		this.goal = goal;
-	} 
-	
+	}
+
 	public String getTitle() {
 		return title;
 	}

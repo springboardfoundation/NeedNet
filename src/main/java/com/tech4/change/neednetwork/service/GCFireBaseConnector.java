@@ -18,6 +18,7 @@ public class GCFireBaseConnector {
 			Message needMessage = Message.builder()
 				    .putData("alert", message)
 				    .putData("title", need.getTitle())
+				    .putData("id", need.getId())
 				    .putData("needNetApp", "True")
 				    .setToken(tokenId)
 				    .build();
