@@ -45,6 +45,9 @@ public class NeedServiceImpl  implements NeedService{
 		persistedNeed.setLocation(need.getLocation());
 		persistedNeed.setTargetDate(need.getTargetDate());
 		persistedNeed.setGoal(need.getGoal());
+		persistedNeed.setTargetAmount(need.getTargetAmount());
+		persistedNeed.setAmountContributed(need.getAmountContributed());
+		persistedNeed.setRemainingAmount(need.getTargetAmount()-need.getAmountContributed());
 		List<String> users = null;
 		if(need.getUsers() == null) {
 			users = new ArrayList<String>();
@@ -112,6 +115,10 @@ public class NeedServiceImpl  implements NeedService{
         updated.setId(need.getId());
         updated.setUsers(need.getUsers());
         updated.setGoal(need.getGoal());
+        updated.setTargetAmount(need.getTargetAmount());
+        updated.setAmountContributed(need.getAmountContributed()+updated.getAmountContributed());
+        updated.setRemainingAmount(need.getTargetAmount()-need.getAmountContributed());
+        
         updated = repository.save(updated);
 
         LOGGER.info("Updated todo entry with information: {}", updated);
@@ -138,6 +145,9 @@ public class NeedServiceImpl  implements NeedService{
 		needDTO.setTargetDate(need.getTargetDate());
 		needDTO.setUsers(need.getUsers());
 		needDTO.setGoal(need.getGoal());
+		needDTO.setAmountContributed(need.getAmountContributed());
+		needDTO.setTargetAmount(need.getTargetAmount());
+		needDTO.setRemainingAmount(need.getAmountContributed());
 		
 		
 		return needDTO;
@@ -207,8 +217,7 @@ public class NeedServiceImpl  implements NeedService{
 		
 		List<Need> needEntriesCustom = repository.findByUsersIn(users);
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntriesCustom);
-		
-		
+			
 		
 		List<Need> needEntries1 = repository.findByUsers(user.replace("+", "\\+"));
 		LOGGER.info("Repository needs created by others mapped to me..."+needEntries1);

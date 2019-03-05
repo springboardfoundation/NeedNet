@@ -30,8 +30,38 @@ public class Need {
 	}
 	
 	public String title;
-
 	public String goal;
+	
+	public Integer getTargetAmount() {
+		return targetAmount;
+	}
+
+	public void setTargetAmount(Integer targetAmount) {
+		this.targetAmount = targetAmount;
+	}
+
+	public Integer getRemainingAmount() {
+		return remainingAmount;
+	}
+
+	public void setRemainingAmount(Integer remainingAmount) {
+		this.remainingAmount = remainingAmount;
+	}
+
+	public Integer getAmountContributed() {
+		return amountContributed;
+	}
+
+	public void setAmountContributed(Integer amountContributed) {
+		this.amountContributed = amountContributed;
+	}
+
+	@Field(value="targetAmount")
+	public Integer targetAmount;
+	@Field(value="remainingAmount")
+	public Integer remainingAmount=0;
+	@Field(value="amountContributed")
+	public Integer amountContributed=0;
 
 	
 	public String getGoal() {
@@ -42,7 +72,6 @@ public class Need {
 		this.goal = goal;
 	}
 
-	
 	public String getTitle() {
 		return title;
 	}

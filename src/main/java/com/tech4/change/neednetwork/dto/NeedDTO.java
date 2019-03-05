@@ -2,7 +2,7 @@ package com.tech4.change.neednetwork.dto;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 public class NeedDTO {
 
@@ -14,6 +14,36 @@ private String id;
 	private Date  targetDate; // days 
 	private String location; 
 	private String goal;
+	
+	public Integer targetAmount;
+	
+	public Integer getTargetAmount() {
+		return targetAmount;
+	}
+
+	public void setTargetAmount(Integer targetAmount) {
+		this.targetAmount = targetAmount;
+	}
+
+	public Integer getRemainingAmount() {
+		return remainingAmount;
+	}
+
+	public void setRemainingAmount(Integer remainingAmount) {
+		this.remainingAmount = remainingAmount;
+	}
+
+	public Integer getAmountContributed() {
+		return amountContributed;
+	}
+
+	public void setAmountContributed(Integer amountContributed) {
+		this.amountContributed = amountContributed;
+	}
+
+	public Integer remainingAmount;
+	
+	public Integer amountContributed;
 	
 	public String getGoal() {
 		return goal;
