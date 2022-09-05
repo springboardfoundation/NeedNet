@@ -1,7 +1,6 @@
-package com.example.user.controller;
-
-import com.example.user.entity.signup;
-import com.example.user.service.tableservice;
+package org.sbf.user.controller;
+import org.sbf.user.entity.User;
+import org.sbf.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
+public class UserRegistrationController  {
 
     @Autowired
-    private tableservice table;
-    @RequestMapping(method= RequestMethod.POST,value="/add")
-    public String saveinfo(@RequestBody signup SignUp)
+    private UserService table;
+    @RequestMapping(method= RequestMethod.POST,value="/api/v1/user/register")
+    public String saveinfo(@RequestBody User SignUp)
     {
-        if(table.addinfo(SignUp)!=null)
+        if(table.saveUser(SignUp)!=null)
         {
             return "data inserted Successfully";
         }

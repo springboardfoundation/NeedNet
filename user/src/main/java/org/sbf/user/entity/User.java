@@ -1,16 +1,17 @@
-package com.example.user.entity;
+package org.sbf.user.entity;
+
 
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="UserTable",schema = "Needs")
-public class signup {
+@Table(name="user")
+public class User {
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
-    @Column(name="UserNumber")
+    @Column(name="user_number")
     private int userNumber;
     private String name;
     private String email;
@@ -21,8 +22,8 @@ public class signup {
 
     private int MobileNumber;
 
-    @OneToOne(mappedBy = "UserTable")
-    private User_Trigger user;
+    @OneToOne(mappedBy = "user")
+    private UserTrigger trigger;
     public Long getId() {
         return id;
     }
