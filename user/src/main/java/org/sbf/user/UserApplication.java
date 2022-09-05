@@ -1,13 +1,15 @@
-package com.example.user;
+package org.sbf.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.example.user.repositories")
-@EntityScan(basePackages = "com.example.user.entity")
+@EnableJpaRepositories(basePackages = "org.sbf.user.repositories")
+@EntityScan(basePackages = "org.sbf.user.entity")
+@ComponentScan(basePackages = "org.sbf.user.service")
 public class UserApplication {
 
     public static void main(String[] args) {
