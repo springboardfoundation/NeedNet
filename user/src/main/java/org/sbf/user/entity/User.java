@@ -24,6 +24,7 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private UserTrigger trigger;
+
     public Long getId() {
         return id;
     }

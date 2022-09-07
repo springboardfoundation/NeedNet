@@ -1,8 +1,9 @@
 package org.sbf.user.service;
 
+import org.sbf.user.dto.UserDto;
 import org.sbf.user.entity.User;
 
 public interface UserService {
 
-    User saveUser(User user);
+    UserDto saveUser(UserDto userDto);
 }
