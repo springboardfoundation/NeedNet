@@ -66,8 +66,6 @@ public class UserServiceImpl  implements UserService{
 			  LOGGER.info("User Already exists . Please invoke login."); 
 			 throw new ServiceException("User Already Exists");
 		  }
-		  
-		
 	}
 
 	public UserDTO delete(String username) {

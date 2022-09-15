@@ -1,13 +1,7 @@
 package com.tech4.change.neednetwork.dto;
-
 import java.util.List;
 
-
-
-public class UserDTO {
-
-	
-	
+public class UserDto {
 	private String mobileNumber;
 	private List<String> friendList;
 	private List<NeedDTO> needsList;
