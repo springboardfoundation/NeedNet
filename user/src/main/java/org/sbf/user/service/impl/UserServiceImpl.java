@@ -1,8 +1,8 @@
 package org.sbf.user.service.impl;
 
-import org.sbf.user.dto.UserDto;
-import org.sbf.user.entity.User;
-import org.sbf.user.repositories.UserRepositoy;
+import org.sbf.neednet.commons.user.dto.UserDto;
+import org.sbf.neednet.commons.user.entity.User;
+import org.sbf.neednet.commons.user.repositories.UserRepositoy;
 import org.sbf.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,8 @@ public class UserServiceImpl  implements UserService {
     @Autowired
     private UserRepositoy userRepositoy;
     private User user;
+
+
 
     @Override
     public UserDto saveUser(UserDto userDto) {

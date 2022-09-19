@@ -1,7 +1,7 @@
 package org.sbf.user.service;
 
-import org.sbf.user.dto.UserDto;
-import org.sbf.user.entity.User;
+import org.sbf.neednet.commons.user.dto.UserDto;
+
 
 public interface UserService {
 

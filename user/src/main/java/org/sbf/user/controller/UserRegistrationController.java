@@ -1,7 +1,7 @@
 package org.sbf.user.controller;
 
 
-import org.sbf.user.dto.UserDto;
+import org.sbf.neednet.commons.user.dto.UserDto;
 import org.sbf.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
